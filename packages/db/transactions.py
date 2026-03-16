@@ -2,11 +2,7 @@ from contextlib import contextmanager
 from .engine import engine
 
 @contextmanager
-def get_connection():
+def transaction():
 
-    conn = engine.connect()
-
-    try:
+    with engine.begin() as conn:
         yield conn
-    finally:
-        conn.close()
