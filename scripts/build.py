@@ -45,6 +45,7 @@ from builders.data_loader_builder import build_data_loader
 from builders.pipeline_runner_builder import build_pipeline_runner
 
 # Application builders
+from builders.simulation_data_builder import build_simulation_data
 from builders.simulation_builder import build_simulation
 from builders.api_builder import build_api
 from builders.dashboard_builder import build_dashboard
@@ -85,6 +86,7 @@ INGESTION_BUILDERS: List[BuilderSpec] = [
 ]
 
 APPLICATION_BUILDERS: List[BuilderSpec] = [
+    ("simulation_data_builder", build_simulation_data),
     ("simulation_builder", build_simulation),
     ("api_builder", build_api),
     ("dashboard_builder", build_dashboard),
@@ -176,7 +178,13 @@ def build_application_layer() -> None:
 
 
 def build_simulation_only() -> None:
-    run_builders([("simulation_builder", build_simulation)], "SIMULATION ONLY")
+    run_builders(
+        [
+            ("simulation_data_builder", build_simulation_data),
+            ("simulation_builder", build_simulation),
+        ],
+        "SIMULATION ONLY",
+    )
 
 
 def build_api_only() -> None:
