@@ -1,12 +1,10 @@
 # Master Blueprint
-Status: Draft
 
-This document defines the architecture of the NAACP Tournament Simulation Platform.
+Defines system architecture.
 
-Core systems:
-
+Systems
 - Data ingestion
 - Simulation engine
 - AI analysis
-- Governance layer
+- Governance
 - Dashboard delivery

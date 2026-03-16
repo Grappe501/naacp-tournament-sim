@@ -1,10 +1,8 @@
 # Drift Taxonomy
 
-Defines types of drift detected in the system.
+Defines detectable system drift types.
 
-Types:
 - Architecture drift
 - Schema drift
 - Model drift
 - Prompt drift
-- Output drift

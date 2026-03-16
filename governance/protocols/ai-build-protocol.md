@@ -1,15 +1,12 @@
 # AI Build Protocol
 
-Purpose:
-Define how AI tools may assist development.
+Defines how AI assists development.
 
 AI may:
 - generate code
-- suggest improvements
 - analyze architecture
-- document modules
+- propose improvements
 
 AI may not:
-- modify schema without migrations
 - deploy code
-- bypass governance rules
+- modify production schema

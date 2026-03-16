@@ -1,8 +1,6 @@
-# Master File Index
+# File Index
 
-This document lists all core files used in the NAACP Tournament Simulation Platform.
-
-Core directories:
+Core directories
 
 apps/
 services/
