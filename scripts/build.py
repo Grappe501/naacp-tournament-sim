@@ -47,6 +47,7 @@ from builders.pipeline_runner_builder import build_pipeline_runner
 # Application builders
 from builders.simulation_data_builder import build_simulation_data
 from builders.simulation_builder import build_simulation
+from builders.bracket_simulation_builder import build_bracket_simulation
 from builders.api_builder import build_api
 from builders.dashboard_builder import build_dashboard
 from builders.ai_builder import build_ai
@@ -88,6 +89,7 @@ INGESTION_BUILDERS: List[BuilderSpec] = [
 APPLICATION_BUILDERS: List[BuilderSpec] = [
     ("simulation_data_builder", build_simulation_data),
     ("simulation_builder", build_simulation),
+    ("bracket_simulation_builder", build_bracket_simulation),
     ("api_builder", build_api),
     ("dashboard_builder", build_dashboard),
     ("ai_builder", build_ai),
@@ -182,6 +184,7 @@ def build_simulation_only() -> None:
         [
             ("simulation_data_builder", build_simulation_data),
             ("simulation_builder", build_simulation),
+            ("bracket_simulation_builder", build_bracket_simulation),
         ],
         "SIMULATION ONLY",
     )
