@@ -1,36 +1,42 @@
 from sqlalchemy import text
-from packages.db.connection import engine
+from packages.db.engine import engine
 
-def upsert_games(games):
+
+def upsert_games(records: list[dict]) -> None:
+    sql = text(
+        '''
+        INSERT INTO games (
+            season,
+            game_date,
+            home_team_id,
+            away_team_id,
+            neutral_site,
+            location
+        )
+        SELECT
+            :season,
+            CAST(:game_date AS TIMESTAMP),
+            ht.id,
+            at.id,
+            :neutral_site,
+            :location
+        FROM teams ht, teams at
+        WHERE ht.slug = :home_slug
+          AND at.slug = :away_slug
+        ON CONFLICT DO NOTHING
+        '''
+    )
+
     with engine.begin() as conn:
-        for game in games:
+        for record in records:
             conn.execute(
-                text(
-                    '''
-                    INSERT INTO games (
-                        season,
-                        game_date,
-                        home_team_id,
-                        away_team_id,
-                        neutral_site
-                    )
-                    SELECT
-                        :season,
-                        CAST(:game_date AS TIMESTAMP),
-                        ht.id,
-                        at.id,
-                        :neutral_site
-                    FROM teams ht, teams at
-                    WHERE ht.slug = :home_slug
-                      AND at.slug = :away_slug
-                    ON CONFLICT DO NOTHING
-                    '''
-                ),
+                sql,
                 {
-                    "season": game.season,
-                    "game_date": game.game_date,
-                    "home_slug": f"espn-{game.home_team_external_id}",
-                    "away_slug": f"espn-{game.away_team_external_id}",
-                    "neutral_site": game.neutral_site,
-                }
+                    "season": record["season"],
+                    "game_date": record["game_date"],
+                    "home_slug": f"espn-{record['home_team_external_id']}",
+                    "away_slug": f"espn-{record['away_team_external_id']}",
+                    "neutral_site": record["neutral_site"],
+                    "location": record["location"],
+                },
             )

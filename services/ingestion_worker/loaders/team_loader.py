@@ -1,20 +1,23 @@
 from sqlalchemy import text
-from packages.db.connection import engine
+from packages.db.engine import engine
 
-def upsert_teams(teams):
+
+def upsert_teams(records: list[dict]) -> None:
+    sql = text(
+        '''
+        INSERT INTO teams (name, slug)
+        VALUES (:name, :slug)
+        ON CONFLICT (slug)
+        DO UPDATE SET name = EXCLUDED.name
+        '''
+    )
+
     with engine.begin() as conn:
-        for team in teams:
+        for record in records:
             conn.execute(
-                text(
-                    '''
-                    INSERT INTO teams (name, slug)
-                    VALUES (:name, :slug)
-                    ON CONFLICT (slug)
-                    DO UPDATE SET name = EXCLUDED.name
-                    '''
-                ),
+                sql,
                 {
-                    "name": team.name,
-                    "slug": f"espn-{team.external_id}",
-                }
+                    "name": record["name"],
+                    "slug": record["slug"],
+                },
             )
