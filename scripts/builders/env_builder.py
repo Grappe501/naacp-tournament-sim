@@ -1,5 +1,6 @@
 from utils.file_utils import write_file
 
+
 def build_environment():
 
     print("Building Python environment...")
@@ -8,6 +9,7 @@ def build_environment():
 flask
 requests
 pandas
+numpy
 sqlalchemy
 psycopg2-binary
 python-dotenv

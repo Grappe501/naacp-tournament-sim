@@ -49,6 +49,7 @@ from builders.simulation_data_builder import build_simulation_data
 from builders.feature_engineering_builder import build_feature_engineering
 from builders.simulation_builder import build_simulation
 from builders.bracket_simulation_builder import build_bracket_simulation
+from builders.monte_carlo_builder import build_monte_carlo
 from builders.simulation_narrative_builder import build_simulation_narrative
 from builders.api_builder import build_api
 from builders.dashboard_builder import build_dashboard
@@ -93,6 +94,7 @@ APPLICATION_BUILDERS: List[BuilderSpec] = [
     ("feature_engineering_builder", build_feature_engineering),
     ("simulation_builder", build_simulation),
     ("bracket_simulation_builder", build_bracket_simulation),
+    ("monte_carlo_builder", build_monte_carlo),
     ("simulation_narrative_builder", build_simulation_narrative),
     ("api_builder", build_api),
     ("dashboard_builder", build_dashboard),
@@ -190,6 +192,7 @@ def build_simulation_only() -> None:
             ("feature_engineering_builder", build_feature_engineering),
             ("simulation_builder", build_simulation),
             ("bracket_simulation_builder", build_bracket_simulation),
+            ("monte_carlo_builder", build_monte_carlo),
             ("simulation_narrative_builder", build_simulation_narrative),
         ],
         "SIMULATION ONLY",
