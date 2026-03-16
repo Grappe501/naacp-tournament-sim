@@ -46,8 +46,10 @@ from builders.pipeline_runner_builder import build_pipeline_runner
 
 # Application builders
 from builders.simulation_data_builder import build_simulation_data
+from builders.feature_engineering_builder import build_feature_engineering
 from builders.simulation_builder import build_simulation
 from builders.bracket_simulation_builder import build_bracket_simulation
+from builders.simulation_narrative_builder import build_simulation_narrative
 from builders.api_builder import build_api
 from builders.dashboard_builder import build_dashboard
 from builders.ai_builder import build_ai
@@ -88,8 +90,10 @@ INGESTION_BUILDERS: List[BuilderSpec] = [
 
 APPLICATION_BUILDERS: List[BuilderSpec] = [
     ("simulation_data_builder", build_simulation_data),
+    ("feature_engineering_builder", build_feature_engineering),
     ("simulation_builder", build_simulation),
     ("bracket_simulation_builder", build_bracket_simulation),
+    ("simulation_narrative_builder", build_simulation_narrative),
     ("api_builder", build_api),
     ("dashboard_builder", build_dashboard),
     ("ai_builder", build_ai),
@@ -183,8 +187,10 @@ def build_simulation_only() -> None:
     run_builders(
         [
             ("simulation_data_builder", build_simulation_data),
+            ("feature_engineering_builder", build_feature_engineering),
             ("simulation_builder", build_simulation),
             ("bracket_simulation_builder", build_bracket_simulation),
+            ("simulation_narrative_builder", build_simulation_narrative),
         ],
         "SIMULATION ONLY",
     )
