@@ -47,6 +47,7 @@ from builders.metrics_builder import build_metrics_ingestion
 from builders.data_loader_builder import build_data_loader
 from builders.pipeline_runner_builder import build_pipeline_runner
 from builders.tournament_data_harvester_builder import build_tournament_data_harvester
+from builders.player_gamelog_harvester_builder import build_player_gamelog_harvester
 
 # Simulation / application builders
 from builders.simulation_data_builder import build_simulation_data
@@ -92,6 +93,7 @@ INGESTION_BUILDERS: List[BuilderSpec] = [
     ("data_loader_builder", build_data_loader),
     ("pipeline_runner_builder", build_pipeline_runner),
     ("tournament_data_harvester_builder", build_tournament_data_harvester),
+    ("player_gamelog_harvester_builder", build_player_gamelog_harvester),
 ]
 
 SIMULATION_BUILDERS: List[BuilderSpec] = [
