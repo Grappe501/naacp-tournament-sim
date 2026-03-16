@@ -1,3 +1,11 @@
+from utils.file_utils import write_file
+
+def build_database():
+
+    print("Building database schema...")
+
+    schema = """
+
 CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
     name TEXT,
@@ -16,3 +24,7 @@ CREATE TABLE games (
     away_team INT,
     game_date DATE
 );
+
+"""
+
+    write_file("packages/db/schema.sql", schema)
