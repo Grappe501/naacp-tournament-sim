@@ -9,6 +9,10 @@ def build_feature_engineering():
 
     write_file("services/simulation_worker/features/__init__.py", "")
 
+    # --------------------------------------------------
+    # TEAM FEATURES
+    # --------------------------------------------------
+
     team_features = """
 from packages.db.connection import get_connection
 
@@ -52,52 +56,119 @@ def calculate_team_features():
     return features
 """
 
+    # --------------------------------------------------
+    # PLAYER FEATURES
+    # --------------------------------------------------
+
     player_features = """
-import random
+from packages.db.connection import get_connection
 
 
-def calculate_player_features(players):
+def calculate_player_features():
 
-    projections = []
+    sql = '''
 
-    for p in players:
+    SELECT
+        p.id,
+        p.full_name,
+        AVG(l.points) as avg_points,
+        AVG(l.rebounds) as avg_rebounds,
+        AVG(l.assists) as avg_assists
+    FROM players p
+    LEFT JOIN player_game_logs l
+        ON l.player_id = p.id
+    GROUP BY p.id, p.full_name
 
-        projections.append({
-            "player_id": p["player_id"],
-            "player_name": p["player_name"],
-            "impact_score": random.uniform(0, 10)
+    '''
+
+    with get_connection() as conn:
+        rows = conn.execute(sql).fetchall()
+
+    features = []
+
+    for r in rows:
+
+        features.append({
+            "player_id": r[0],
+            "player_name": r[1],
+            "avg_points": float(r[2]) if r[2] else 0,
+            "avg_rebounds": float(r[3]) if r[3] else 0,
+            "avg_assists": float(r[4]) if r[4] else 0
         })
-
-    return projections
-"""
-
-    game_features = """
-def calculate_game_features(team_a, team_b):
-
-    pace = (team_a["offense_rating"] + team_b["offense_rating"]) / 3
-
-    variance = abs(team_a["net_rating"] - team_b["net_rating"]) * 0.5
-
-    return {
-        "expected_pace": pace,
-        "variance_profile": variance
-    }
-"""
-
-    feature_pipeline = """
-from services.simulation_worker.features.team_features import calculate_team_features
-
-
-def build_feature_table():
-
-    features = calculate_team_features()
-
-    print("Feature table built:", len(features))
 
     return features
 """
 
+    # --------------------------------------------------
+    # MATCHUP FEATURES
+    # --------------------------------------------------
+
+    matchup_features = """
+def calculate_matchup_features(team_a, team_b):
+
+    pace = (team_a["offense_rating"] + team_b["offense_rating"]) / 3
+
+    strength_gap = team_a["net_rating"] - team_b["net_rating"]
+
+    variance = abs(strength_gap) * 0.5
+
+    return {
+        "expected_pace": pace,
+        "strength_gap": strength_gap,
+        "variance_profile": variance
+    }
+"""
+
+    # --------------------------------------------------
+    # INJURY MODEL
+    # --------------------------------------------------
+
+    injury_model = """
+import random
+
+
+def simulate_injury_risk(player_features):
+
+    risk = random.uniform(0, 1)
+
+    if risk < 0.01:
+        return "season_ending"
+
+    if risk < 0.05:
+        return "multi_game"
+
+    if risk < 0.10:
+        return "limited_minutes"
+
+    return "healthy"
+"""
+
+    # --------------------------------------------------
+    # FEATURE PIPELINE
+    # --------------------------------------------------
+
+    feature_pipeline = """
+from services.simulation_worker.features.team_features import calculate_team_features
+from services.simulation_worker.features.player_features import calculate_player_features
+
+
+def build_feature_tables():
+
+    team_features = calculate_team_features()
+
+    player_features = calculate_player_features()
+
+    print("Team features:", len(team_features))
+    print("Player features:", len(player_features))
+
+    return {
+        "teams": team_features,
+        "players": player_features
+    }
+"""
+
     write_file("services/simulation_worker/features/team_features.py", team_features)
     write_file("services/simulation_worker/features/player_features.py", player_features)
-    write_file("services/simulation_worker/features/game_features.py", game_features)
+    write_file("services/simulation_worker/features/matchup_features.py", matchup_features)
+    write_file("services/simulation_worker/features/injury_model.py", injury_model)
     write_file("services/simulation_worker/features/feature_pipeline.py", feature_pipeline)
