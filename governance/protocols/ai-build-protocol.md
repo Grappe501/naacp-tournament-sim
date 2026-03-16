@@ -1,12 +1,17 @@
 # AI Build Protocol
 
-Defines how AI assists development.
+Version: 1.0
 
-AI may:
+## AI May
+
 - generate code
-- analyze architecture
-- propose improvements
+- draft documentation
+- review architecture
+- propose experiments
 
-AI may not:
+## AI May Not
+
+- modify production schema without process
 - deploy code
-- modify production schema
+- bypass governance
+- create hidden services

@@ -1,5 +1,14 @@
 # Zip Delivery Protocol
 
-Defines how modular components are introduced into the system.
+Version: 1.0
 
-Modules must be delivered as complete packages.
+## Purpose
+
+Controls how full file bundles are introduced into the repository.
+
+## Rules
+
+- Deliver complete module groups, not fragments.
+- Every delivered bundle must align with the file index.
+- Replacements must be whole-file safe.
+- Each bundle must include a manifest and purpose statement.

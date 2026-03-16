@@ -1,2 +1,7 @@
-def run_ingestion():
-    print("Data ingestion pipeline starting...")
+def run_ingestion() -> None:
+    print("Starting ingestion pipeline...")
+    print("TODO: implement source adapters, normalization, and load steps.")
+
+
+if __name__ == "__main__":
+    run_ingestion()

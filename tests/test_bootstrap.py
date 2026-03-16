@@ -1,2 +1,2 @@
-def test_bootstrap():
+def test_bootstrap_sanity():
     assert True

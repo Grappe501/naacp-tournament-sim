@@ -1,0 +1,15 @@
+{
+  "name": "naacp-tournament-sim",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap:python": "python scripts/super_bootstrap.py",
+    "test:python": "pytest",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
+  }
+}

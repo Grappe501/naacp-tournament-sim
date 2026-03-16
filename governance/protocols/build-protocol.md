@@ -1,8 +1,11 @@
 # Build Protocol
 
-Defines construction rules for the platform.
+Version: 1.0
 
-Rules
-- No direct schema edits without migrations
-- Modules must include documentation
-- Architecture layers must remain isolated
+## Rules
+
+- All modules must have a defined purpose.
+- New files must fit the approved architecture.
+- Database changes require migrations or schema updates.
+- Tests and documentation are required for production-ready modules.
+- Architecture layers must remain separated.
