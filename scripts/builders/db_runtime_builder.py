@@ -1,0 +1,21 @@
+from utils.file_utils import write_file
+
+def build_db_runtime():
+    print("Building database runtime...")
+
+    code = """
+import os
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/naacp_tournament")
+
+engine = create_engine(DATABASE_URL, future=True)
+
+def get_connection():
+    return engine.connect()
+"""
+
+    write_file("packages/db/connection.py", code)
